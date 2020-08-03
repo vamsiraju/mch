@@ -1,14 +1,14 @@
-pragma solidity ^0.5.12;
+pragma solidity 0.5.12;
 
 import "ds-test/test.sol";
 
-import "./Mch.sol";
+import "./mch.sol";
 
-contract MchTest is DSTest {
-    Mch mch;
+contract MCHTest is DSTest {
+    MCH mch;
 
     function setUp() public {
-        mch = new Mch();
+        mch = new MCH();
     }
 
     function testFail_basic_sanity() public {
