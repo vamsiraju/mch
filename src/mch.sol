@@ -45,7 +45,7 @@ contract MCH is DSMath {
     mapping (uint => Point) points; // created points
     mapping (uint => Offer) offers; // point owners accepting offers
     mapping (uint => Lease) leases; // current leases
-    mapping (uint => address) infoAddr; // point info contract address
+    mapping (uint => bytes) ipfsHash; // point initialization info stored in an ipfs doc
     uint lastid;
 
     constructor() public {
@@ -181,33 +181,7 @@ contract MCH is DSMath {
     }
 
     // --- Point Info management ---
-    function setInfoAddr(uint point_, address infoAddr_) public onlyLeasee(point_) {
-        infoAddr[point_] = infoAddr_;
+    function setIpfsHash(uint point_, bytes memory ipfsHash_) public onlyLeasee(point_) {
+        ipfsHash[point_] = ipfsHash_;
     }
-}
-
-contract NFTInfo {
-    MCHLike mch;
-
-    constructor(address mch_) public {
-        mch = MCHLike(mch_);
-    }
-
-    modifier onlyLeasee(uint point_) {
-        require(mch.getLeasee(point_) == msg.sender);
-        _;
-    }
-
-    struct NFT {
-        address nft;
-        uint nftid;
-    }
-    
-    mapping (uint => NFT) info;
-
-    function setInfo(uint point_, address nft_, uint nftid_) public onlyLeasee(point_) {
-        info[point_].nft = nft_;
-        info[point_].nftid = nftid_;
-    }
-
 }
